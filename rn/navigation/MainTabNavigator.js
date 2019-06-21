@@ -7,7 +7,7 @@ import {
 
 import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
-import LinksScreen from "../screens/LinksScreen";
+import ReadingScreen from "../screens/ReadingScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 
 const HomeStack = createStackNavigator({
@@ -28,11 +28,11 @@ HomeStack.navigationOptions = {
   )
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen
+const ReadingStack = createStackNavigator({
+  Reading: ReadingScreen
 });
 
-LinksStack.navigationOptions = {
+ReadingStack.navigationOptions = {
   tabBarLabel: "Today",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -58,6 +58,6 @@ SettingsStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   HomeStack,
-  LinksStack,
+  ReadingStack,
   SettingsStack
 });
