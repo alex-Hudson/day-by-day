@@ -5,44 +5,17 @@ import Touchable from "react-native-platform-touchable";
 import { Ionicons } from "@expo/vector-icons";
 import Reading from "../components/Reading";
 import ReadingText from "./ReadingText";
+import * as questions from "../assets/database/questions";
 
 export default class ReadingView extends React.Component {
   render() {
     const text = this.state ? this.state.text : "hello";
+    const questionText =
+      this.state && this.state.questionText ? this.state.questionText : [];
+
     console.log(text);
     return (
       <View>
-        <Text style={styles.optionsTitleText}>Resources</Text>
-
-        <Touchable
-          style={styles.option}
-          background={Touchable.Ripple("#ccc", false)}
-          onPress={this._handlePressDocs}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <View style={styles.optionIconContainer} />
-            <View style={styles.optionTextContainer}>
-              <Text style={styles.optionText}>Read the Expo documentation</Text>
-            </View>
-          </View>
-        </Touchable>
-
-        <Touchable
-          style={styles.option}
-          background={Touchable.Ripple("#ccc", false)}
-          onPress={this._handlePressForums}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <View style={styles.optionIconContainer}>
-              <Ionicons name="ios-chatboxes" size={22} color="#ccc" />
-            </View>
-            <View style={styles.optionTextContainer}>
-              <Text style={styles.optionText}>
-                Ask a question on the Expo forums
-              </Text>
-            </View>
-          </View>
-        </Touchable>
         <Touchable
           style={styles.option}
           background={Touchable.Ripple("#ccc", false)}
@@ -59,12 +32,39 @@ export default class ReadingView extends React.Component {
         <Touchable
           style={styles.option}
           background={Touchable.Ripple("#ccc", false)}
-          onPress={this._handleReadingPress.bind(this)}
+          onPress={this._handleReadingPress}
         >
           <View style={{ flexDirection: "row" }}>
             <View style={styles.optionIconContainer} />
             <View style={styles.optionTextContainer}>
               <ReadingText text={text} />
+            </View>
+          </View>
+        </Touchable>
+
+        <Touchable
+          style={styles.option}
+          background={Touchable.Ripple("#ccc", false)}
+          onPress={this._handleQuestionPress}
+        >
+          <View style={{ flexDirection: "row" }}>
+            <View style={styles.optionIconContainer} />
+            <View style={styles.optionTextContainer}>
+              <Text style={styles.optionText}>Get Question</Text>
+            </View>
+          </View>
+        </Touchable>
+        <Touchable
+          style={styles.option}
+          background={Touchable.Ripple("#ccc", false)}
+          onPress={this._handleQuestionPress}
+        >
+          <View style={{ flexDirection: "row" }}>
+            <View style={styles.optionIconContainer} />
+            <View style={styles.optionTextContainer}>
+              {questionText.map(question => (
+                <Text style={styles.optionText}>{question}</Text>
+              ))}
             </View>
           </View>
         </Touchable>
@@ -82,11 +82,28 @@ export default class ReadingView extends React.Component {
 
   _handleReadingPress = async () => {
     const reading = new Reading();
-    const readingText = await reading.getReading();
+    console.log(questions.default);
+    const reference = this._getReference();
+    const readingText = await reading.getReading(reference);
     console.log(readingText);
     //this.setState({ text: readingText });
     this.setState({ text: readingText });
   };
+
+  _handleQuestionPress = () => {
+    console.log("press");
+    const reference = "John 3:16";
+    const tempQuestions = questions.default[reference];
+    console.log(tempQuestions);
+    this.setState({ questionText: tempQuestions });
+  };
+
+  _getReference() {
+    const references = Object.keys(questions.default);
+    console.log(references);
+    const reference = references[0]; // TODO handle get reference correctly
+    return reference;
+  }
 }
 
 const styles = StyleSheet.create({

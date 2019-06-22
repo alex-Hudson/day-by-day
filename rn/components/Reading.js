@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export default class Reading {
-  async getReading(book, chapter, verse) {
+  async getReading(reference) {
     const response = await axios.get(
-      "http://labs.bible.org/api/?passage=John%203:16&type=json",
+      `http://labs.bible.org/api/?passage=${reference}&type=json`,
       {
         headers: {
           "Access-Control-Allow-Origin": "*"
