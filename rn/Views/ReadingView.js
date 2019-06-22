@@ -8,6 +8,8 @@ import ReadingText from "./ReadingText";
 
 export default class ReadingView extends React.Component {
   render() {
+    const text = this.state ? this.state.text : "hello";
+    console.log(text);
     return (
       <View>
         <Text style={styles.optionsTitleText}>Resources</Text>
@@ -57,12 +59,12 @@ export default class ReadingView extends React.Component {
         <Touchable
           style={styles.option}
           background={Touchable.Ripple("#ccc", false)}
-          onPress={this._handleReadingPress}
+          onPress={this._handleReadingPress.bind(this)}
         >
           <View style={{ flexDirection: "row" }}>
             <View style={styles.optionIconContainer} />
             <View style={styles.optionTextContainer}>
-              <ReadingText text={this.readingtext} />
+              <ReadingText text={text} />
             </View>
           </View>
         </Touchable>
@@ -78,10 +80,12 @@ export default class ReadingView extends React.Component {
     WebBrowser.openBrowserAsync("http://forums.expo.io");
   };
 
-  _handleReadingPress = () => {
-    console.log(Reading);
+  _handleReadingPress = async () => {
     const reading = new Reading();
-    this.readingtext = reading.getReading();
+    const readingText = await reading.getReading();
+    console.log(readingText);
+    //this.setState({ text: readingText });
+    this.setState({ text: readingText });
   };
 }
 
