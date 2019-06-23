@@ -12,7 +12,9 @@ export default class ReadingText extends React.Component {
     const text = this.props.text;
     return (
       <View style={styles.container}>
-        <Text>{text}</Text>
+        {text.map(text => (
+          <Text style={styles.optionText}>{text}</Text>
+        ))}
       </View>
     );
   }

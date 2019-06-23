@@ -9,7 +9,7 @@ import * as questions from "../assets/database/questions";
 
 export default class ReadingView extends React.Component {
   render() {
-    const text = this.state ? this.state.text : "hello";
+    const text = this.state ? this.state.text : ["hello"];
     const questionText =
       this.state && this.state.questionText ? this.state.questionText : [];
 
@@ -62,9 +62,7 @@ export default class ReadingView extends React.Component {
           <View style={{ flexDirection: "row" }}>
             <View style={styles.optionIconContainer} />
             <View style={styles.optionTextContainer}>
-              {questionText.map(question => (
-                <Text style={styles.optionText}>{question}</Text>
-              ))}
+              <ReadingText text={questionText} />
             </View>
           </View>
         </Touchable>
@@ -87,7 +85,7 @@ export default class ReadingView extends React.Component {
     const readingText = await reading.getReading(reference);
     console.log(readingText);
     //this.setState({ text: readingText });
-    this.setState({ text: readingText });
+    this.setState({ text: [readingText] });
   };
 
   _handleQuestionPress = () => {
