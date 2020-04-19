@@ -1,2 +1,2 @@
 # day-by-day
-App for LRH 
+Postgress, Django, Python 3.8, JavaScript React App for LRH 
